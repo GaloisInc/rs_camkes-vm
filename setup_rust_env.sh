@@ -1,12 +1,18 @@
 #!/bin/bash -e
 
+if grep -e CentOS </etc/os-release >/dev/null 2>&1; then
+    COMPILER=rust-centos-x86_64.tar.gz
+else
+    COMPILER=rust-x86_64.tar.gz
+fi
+
 stdbuf -oL printf "Fetching sel4-aware Rust compiler..."
 (
     rm -rf rust &&
         mkdir rust &&
         cd rust &&
-        curl -O https://infinitenegativeutility.com/rust-x86_64.tar.gz &&
-        tar -xf rust-x86_64.tar.gz
+        curl -O https://infinitenegativeutility.com/$COMPILER &&
+        tar -xf $COMPILER
 ) >/dev/null 2>&1
 echo " done."
 
